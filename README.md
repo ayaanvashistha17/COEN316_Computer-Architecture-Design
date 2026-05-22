@@ -178,16 +178,13 @@ A complete single-cycle MIPS 32-bit microprocessor datapath and control unit, de
 
 
 * **Core Features:**
-* 
-**Instruction Cache (I-Cache):** A read-only memory (ROM) module preloaded with native 32-bit binary instruction words.
+* **Instruction Cache (I-Cache):** A read-only memory (ROM) module preloaded with native 32-bit binary instruction words.
 
 
-* 
-**Data Cache (D-Cache):** A high-speed synchronous RAM block acting as the core scratchpad for variable state allocation (`lw` and `sw` operations).
+* **Data Cache (D-Cache):** A high-speed synchronous RAM block acting as the core scratchpad for variable state allocation (`lw` and `sw` operations).
 
 
-* 
-**Multi-Format Sign-Extension Core:** An automated sign management pipeline converting 16-bit instructions into a complete 32-bit data stream, adapting dynamically to upper padding (`lui`), sign bit replication (`slti`), and logical zero padding.
+* **Multi-Format Sign-Extension Core:** An automated sign management pipeline converting 16-bit instructions into a complete 32-bit data stream, adapting dynamically to upper padding (`lui`), sign bit replication (`slti`), and logical zero padding.
 
 
 
@@ -199,188 +196,27 @@ A complete single-cycle MIPS 32-bit microprocessor datapath and control unit, de
 
 The complete pipeline interprets and processes 20 core instructions natively across three structural layouts:
 
-| Instruction Layout | Assembly Format | Operational Description | Architectural Class |
-| --- | --- | --- | --- |
-| <br>**R-Type** 
-
- | <br>`add rd, rs, rt` 
-
- | <br>$R_d \leftarrow R_s + R_t$ 
-
- | Arithmetic Addition 
-
- |
-| <br>**R-Type** 
-
- | <br>`sub rd, rs, rt` 
-
- | <br>$R_d \leftarrow R_s - R_t$ 
-
- | Arithmetic Subtraction 
-
- |
-| <br>**R-Type** 
-
- | <br>`slt rd, rs, rt` 
-
- | <br>$R_d \leftarrow 1 \text{ if } R_s < R_t \text{ else } 0$ 
-
- | Set Less Than 
-
- |
-| <br>**R-Type** 
-
- | <br>`and rd, rs, rt` 
-
- | <br>$R_d \leftarrow R_s \cdot R_t$ 
-
- | Bitwise Logical AND 
-
- |
-| <br>**R-Type** 
-
- | <br>`or rd, rs, rt` 
-
- | <br>$R_d \leftarrow R_s + R_t$ 
-
- | Bitwise Logical OR 
-
- |
-| <br>**R-Type** 
-
- | <br>`xor rd, rs, rt` 
-
- | <br>$R_d \leftarrow R_s \oplus R_t$ 
-
- | Bitwise Logical XOR 
-
- |
-| <br>**R-Type** 
-
- | <br>`nor rd, rs, rt` 
-
- | <br>$R_d \leftarrow \overline{R_s + R_t}$ 
-
- | Bitwise Logical NOR 
-
- |
-| <br>**I-Type** 
-
- | <br>`lui rt, immediate` 
-
- | <br>$R_t \leftarrow \text{immediate} \mathbin{\Vert} \text{0x0000}$ 
-
- | Load Upper Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`slti rt, rs, immediate` 
-
- | <br>$R_t \leftarrow 1 \text{ if } R_s < \text{immediate} \text{ else } 0$ 
-
- | Set Less Than Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`addi rt, rs, immediate` 
-
- | <br>$R_t \leftarrow R_s + \text{immediate}$ 
-
- | Add Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`andi rt, rs, immediate` 
-
- | <br>$R_t \leftarrow R_s \cdot \text{immediate}$ 
-
- | AND Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`ori rt, rs, immediate` 
-
- | <br>$R_t \leftarrow R_s + \text{immediate}$ 
-
- | OR Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`xori rt, rs, immediate` 
-
- | <br>$R_t \leftarrow R_s \oplus \text{immediate}$ 
-
- | XOR Immediate 
-
- |
-| <br>**I-Type** 
-
- | <br>`lw rt, immediate(rs)` 
-
- | <br>$R_t \leftarrow \text{Memory}[R_s + \text{immediate}]$ 
-
- | Load Word from RAM 
-
- |
-| <br>**I-Type** 
-
- | <br>`sw rt, immediate(rs)` 
-
- | <br>$\text{Memory}[R_s + \text{immediate}] \leftarrow R_t$ 
-
- | Store Word to RAM 
-
- |
-| <br>**I-Type** 
-
- | <br>`beq rs, rt, offset` 
-
- | <br>$\text{If } R_s = R_t, PC \leftarrow PC + 1 + \text{offset}$ 
-
- | Branch on Equal 
-
- |
-| <br>**I-Type** 
-
- | <br>`bne rs, rt, offset` 
-
- | <br>$\text{If } R_s \neq R_t, PC \leftarrow PC + 1 + \text{offset}$ 
-
- | Branch on Not Equal 
-
- |
-| <br>**I-Type** 
-
- | <br>`bltz rs, offset` 
-
- | <br>$\text{If } R_s < 0, PC \leftarrow PC + 1 + \text{offset}$ 
-
- | Branch on Less Than Zero 
-
- |
-| <br>**J-Type** 
-
- | <br>`j target` 
-
- | <br>$PC \leftarrow [000000] \mathbin{\Vert} \text{target}$ 
-
- | Unconditional Jump 
-
- |
-| <br>**R-Type** 
-
- | <br>`jr rs` 
-
- | <br>$PC \leftarrow R_s$ 
-
- | Jump Register 
-
- |
+Instruction Layout,Assembly Format,Operational Description,Architectural Class
+R-Type   PDF,"add rd, rs, rt   PDF",Rd​←Rs​+Rt​   PDF,Arithmetic Addition   PDF
+R-Type   PDF,"sub rd, rs, rt   PDF",Rd​←Rs​−Rt​   PDF,Arithmetic Subtraction   PDF
+R-Type   PDF,"slt rd, rs, rt   PDF",Rd​←1 if Rs​<Rt​ else 0   PDF,Set Less Than   PDF
+R-Type   PDF,"and rd, rs, rt   PDF",Rd​←Rs​⋅Rt​   PDF,Bitwise Logical AND   PDF
+R-Type   PDF,"or rd, rs, rt   PDF",Rd​←Rs​+Rt​   PDF,Bitwise Logical OR   PDF
+R-Type   PDF,"xor rd, rs, rt   PDF",Rd​←Rs​⊕Rt​   PDF,Bitwise Logical XOR   PDF
+R-Type   PDF,"nor rd, rs, rt   PDF",Rd​←Rs​+Rt​​   PDF,Bitwise Logical NOR   PDF
+I-Type   PDF,"lui rt, immediate   PDF",Rt​←immediate∥0x0000   PDF,Load Upper Immediate   PDF
+I-Type   PDF,"slti rt, rs, immediate   PDF",Rt​←1 if Rs​<immediate else 0   PDF,Set Less Than Immediate   PDF
+I-Type   PDF,"addi rt, rs, immediate   PDF",Rt​←Rs​+immediate   PDF,Add Immediate   PDF
+I-Type   PDF,"andi rt, rs, immediate   PDF",Rt​←Rs​⋅immediate   PDF,AND Immediate   PDF
+I-Type   PDF,"ori rt, rs, immediate   PDF",Rt​←Rs​+immediate   PDF,OR Immediate   PDF
+I-Type   PDF,"xori rt, rs, immediate   PDF",Rt​←Rs​⊕immediate   PDF,XOR Immediate   PDF
+I-Type   PDF,"lw rt, immediate(rs)   PDF",Rt​←Memory[Rs​+immediate]   PDF,Load Word from RAM   PDF
+I-Type   PDF,"sw rt, immediate(rs)   PDF",Memory[Rs​+immediate]←Rt​   PDF,Store Word to RAM   PDF
+I-Type   PDF,"beq rs, rt, offset   PDF","If Rs​=Rt​,PC←PC+1+offset   PDF+ 1",Branch on Equal   PDF
+I-Type   PDF,"bne rs, rt, offset   PDF","If Rs​=Rt​,PC←PC+1+offset   PDF+ 1",Branch on Not Equal   PDF
+I-Type   PDF,"bltz rs, offset   PDF","If Rs​<0,PC←PC+1+offset   PDF+ 1",Branch on Less Than Zero   PDF
+J-Type   PDF,j target   PDF,PC←[000000]∥target   PDF+ 1,Unconditional Jump   PDF
+R-Type   PDF,jr rs   PDF,PC←Rs​   PDF+ 1,Jump Register   PDF
 
 ---
 
